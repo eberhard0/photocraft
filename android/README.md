@@ -21,8 +21,8 @@ Needs the Android SDK (platform 35, build-tools 35), NDK r27, a stable Rust tool
 ```sh
 rustup target add aarch64-linux-android
 cargo install cargo-ndk
-export ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/27.2.12479018
-cargo ndk -t arm64-v8a -p 30 -o android/app/src/main/jniLibs build --release -p photocraft-android --features heif
+export ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/<version>
+cargo ndk -t arm64-v8a --platform 30 -o android/app/src/main/jniLibs build --release -p photocraft-android --features heif
 cd android && ./gradlew assembleDebug
 ```
 
