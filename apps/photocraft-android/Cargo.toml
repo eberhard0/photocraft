@@ -1,0 +1,41 @@
+[package]
+name = "photocraft-android"
+description = "PhotoCraft on Android: a GameActivity shell around the egui app (built with cargo-ndk, packaged by android/)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[features]
+# Open HEIC/HEIF photos (the optional photocraft-heif crate); the Android build enables it.
+heif = ["photocraft-codecs/heif"]
+
+# Not `workspace = true`: this shell needs a few `unsafe` lines to talk JNI to its own Kotlin
+# activity (opening and saving through the Storage Access Framework), each with a SAFETY comment.
+# Everything else keeps the workspace standard.
+[lints.rust]
+unsafe_code = "allow"
+
+[lints.clippy]
+dbg_macro = "warn"
+todo = "warn"
+
+[lib]
+name = "photocraft_android"
+crate-type = ["cdylib"]
+path = "src/lib.rs"
+
+[target.'cfg(target_os = "android")'.dependencies]
+photocraft-engine = { workspace = true }
+photocraft-io = { workspace = true }
+photocraft-codecs = { workspace = true }
+photocraft-doc = { workspace = true }
+photocraft-ui-egui = { workspace = true }
+egui = { workspace = true }
+# `accesskit` (which photocraft-ui-egui enables) only builds on Android with GameActivity.
+eframe = { workspace = true, features = ["default_fonts", "wgpu", "accesskit", "android-game-activity", "persistence"] }
+# The same android-activity winit uses (Cargo.lock: 0.6.x), so `AndroidApp` is one type.
+android-activity = { version = "0.6", features = ["game-activity"] }
+android_logger = "0.15"
+jni = "0.22"
+log = { workspace = true }

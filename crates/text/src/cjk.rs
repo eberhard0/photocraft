@@ -269,6 +269,8 @@ pub fn font_files(script: CjkScript) -> Vec<FontFile> {
             "/usr/share/fonts/google-noto-sans-cjk-fonts/NotoSansCJK-Regular.ttc",
             "/usr/share/fonts/google-noto-sans-cjk-vf-fonts/NotoSansCJK-VF.ttc",
             "/usr/share/fonts/noto-cjk/NotoSansCJK-VF.ttc",
+            // Android ships the same collection with its platform fonts.
+            "/system/fonts/NotoSansCJK-Regular.ttc",
         ]
         .iter()
         .map(|p| f(p, noto))
